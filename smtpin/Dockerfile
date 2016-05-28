@@ -2,7 +2,8 @@ FROM phusion/baseimage:0.9.16
 
 MAINTAINER MLstate <contact@mlstate.com>
 
-ENV HOME /root
+ENV HOME /root  \
+    NODE_VERSION=0.10.40
 
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
@@ -10,7 +11,7 @@ RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y -q update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y -q install python-software-properties g++ make git curl
 RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y -q install nodejs
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y -q install nodejs=$NODE_VERSION-*
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Mount /etc/peps for TLS certificates
